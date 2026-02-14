@@ -1,0 +1,6 @@
+# Salesforce local tooling state
+.sfdx/
+.sf/
+
+# OS files
+.DS_Store

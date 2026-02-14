@@ -1,0 +1,6 @@
+# Local Salesforce CLI state
+.sfdx/**
+.sf/**
+
+# OS files
+**/.DS_Store

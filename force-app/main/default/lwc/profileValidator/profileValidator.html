@@ -1,0 +1,117 @@
+<template>
+    <lightning-card title="System Admin Profile FLS Validator" icon-name="standard:settings">
+        <div class="slds-p-around_medium">
+
+            <!-- Description -->
+            <div class="slds-m-bottom_medium">
+                <p class="slds-text-body_regular">
+                    This tool validates that the System Administrator profile has edit permissions
+                    on all custom fields across all objects in your Salesforce org.
+                </p>
+            </div>
+
+            <!-- Run Button -->
+            <div class="slds-m-bottom_medium">
+                <lightning-button
+                    variant="brand"
+                    label="Run Validation"
+                    title="Click to validate FLS permissions"
+                    onclick={handleValidate}
+                    disabled={isLoading}
+                    icon-name="utility:check"
+                ></lightning-button>
+            </div>
+
+            <!-- Loading Spinner -->
+            <template if:true={isLoading}>
+                <div class="slds-m-vertical_medium">
+                    <lightning-spinner alternative-text="Validating permissions..." size="medium"></lightning-spinner>
+                    <p class="slds-text-align_center slds-m-top_small">Analyzing permissions...</p>
+                </div>
+            </template>
+
+            <!-- Error Message -->
+            <template if:true={errorMessage}>
+                <div class="slds-m-bottom_medium">
+                    <div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
+                        <span class="slds-assistive-text">error</span>
+                        <h2>{errorMessage}</h2>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Results Summary -->
+            <template if:true={showResults}>
+                <div class="slds-m-bottom_medium">
+                    <div class={summaryClass} role="alert">
+                        <span class="slds-assistive-text">{summaryType}</span>
+                        <h2 class="slds-text-heading_small slds-m-bottom_x-small">
+                            <strong>Validation Complete</strong>
+                        </h2>
+                        <p>Total Custom Fields Checked: <strong>{totalFieldsChecked}</strong></p>
+                        <p>Objects with Missing Permissions: <strong>{objectCount}</strong></p>
+                        <p>Total Missing Permissions: <strong>{missingPermissionCount}</strong></p>
+                    </div>
+                </div>
+
+                <!-- Download CSV Button -->
+                <template if:true={hasIssues}>
+                    <div class="slds-m-bottom_medium">
+                        <lightning-button
+                            variant="neutral"
+                            label="Download as CSV"
+                            title="Export missing permissions to CSV"
+                            onclick={handleDownloadCsv}
+                            icon-name="utility:download"
+                        ></lightning-button>
+                    </div>
+                </template>
+
+                <!-- Objects List -->
+                <template if:true={hasIssues}>
+                    <div class="slds-m-bottom_medium">
+                        <h3 class="slds-text-heading_small slds-m-bottom_small">
+                            Objects with Missing Permissions ({objectCount})
+                        </h3>
+                        <div class="object-chips">
+                            <template for:each={objectList} for:item="obj">
+                                <span key={obj} class="slds-badge slds-badge_lightest slds-m-right_xx-small slds-m-bottom_xx-small">
+                                    {obj}
+                                </span>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Missing Permissions List -->
+                    <div class="slds-m-bottom_medium">
+                        <h3 class="slds-text-heading_small slds-m-bottom_small">
+                            Missing Field Permissions
+                        </h3>
+                        <div class="permissions-container">
+                            <template for:each={missingPermissions} for:item="permission">
+                                <div key={permission} class="slds-box slds-box_xx-small slds-m-bottom_xx-small permission-item">
+                                    <lightning-icon icon-name="utility:warning" size="xx-small" variant="warning" class="slds-m-right_x-small"></lightning-icon>
+                                    {permission}
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Success Message (No Issues) -->
+                <template if:false={hasIssues}>
+                    <div class="slds-m-top_medium slds-text-align_center">
+                        <lightning-icon icon-name="utility:success" size="large" variant="success"></lightning-icon>
+                        <p class="slds-text-heading_medium slds-m-top_small">
+                            All permissions are correctly configured!
+                        </p>
+                    </div>
+                </template>
+            </template>
+
+        </div>
+
+        <!-- Hidden download anchor -->
+        <a data-id="csvDownloadLink" class="slds-hide"></a>
+    </lightning-card>
+</template>

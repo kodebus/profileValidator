@@ -1,0 +1,25 @@
+.object-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+}
+
+.permissions-container {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #dddbda;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+}
+
+.permission-item {
+    display: flex;
+    align-items: center;
+    font-family: 'Courier New', monospace;
+    font-size: 0.875rem;
+    background-color: #fef5e6;
+}
+
+.permission-item:hover {
+    background-color: #fee69a;
+}

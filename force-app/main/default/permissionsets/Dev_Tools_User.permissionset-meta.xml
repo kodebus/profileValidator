@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <applicationVisibilities>
+        <application>Developer_Tools</application>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <classAccesses>
+        <apexClass>DevToolsRegistryController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ProfileValidationController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <description>Access to internal Developer Tools app and utility components.</description>
+    <label>Dev Tools User</label>
+    <tabSettings>
+        <tab>DevToolsHome</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>profileValidator</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+</PermissionSet>

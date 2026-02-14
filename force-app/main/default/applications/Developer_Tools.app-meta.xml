@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Internal Salesforce developer utility app.</description>
+    <label>Developer Tools</label>
+    <navType>Standard</navType>
+    <formFactors>Large</formFactors>
+    <formFactors>Small</formFactors>
+    <tabs>standard-home</tabs>
+    <tabs>DevToolsHome</tabs>
+    <tabs>profileValidator</tabs>
+    <uiType>Lightning</uiType>
+</CustomApplication>
