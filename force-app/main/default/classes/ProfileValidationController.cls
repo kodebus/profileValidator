@@ -62,6 +62,7 @@ public with sharing class ProfileValidationController {
         for (Profile profileRecord : [
             SELECT Id, Name
             FROM Profile
+            WITH USER_MODE
             ORDER BY Name ASC
         ]) {
             ProfileOption option = new ProfileOption();
@@ -87,6 +88,7 @@ public with sharing class ProfileValidationController {
             SELECT Id, Name
             FROM Profile
             WHERE Name = 'System Administrator'
+            WITH USER_MODE
             LIMIT 1
         ];
         return profiles.isEmpty() ? null : profiles[0];
@@ -101,6 +103,7 @@ public with sharing class ProfileValidationController {
             SELECT Id, Name
             FROM Profile
             WHERE Id = :profileId
+            WITH USER_MODE
             LIMIT 1
         ];
         return profiles.isEmpty() ? null : profiles[0];
@@ -116,6 +119,7 @@ public with sharing class ProfileValidationController {
             SELECT SobjectType, Field, PermissionsEdit
             FROM FieldPermissions
             WHERE Parent.ProfileId = :profileId
+            WITH USER_MODE
         ]) {
             result.put(fieldPermission.Field.toLowerCase(), fieldPermission);
         }
