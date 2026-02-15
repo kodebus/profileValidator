@@ -34,6 +34,23 @@
     gap: 0.25rem;
 }
 
+.message-panel {
+    border: 1px solid #d8dde6;
+    border-radius: 0.375rem;
+    padding: 0.5rem 0.75rem;
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+}
+
+.message-error {
+    border-left: 4px solid #ba0517;
+}
+
+.message-info {
+    border-left: 4px solid #0176d3;
+}
+
 .permissions-container {
     max-height: 400px;
     overflow-y: auto;

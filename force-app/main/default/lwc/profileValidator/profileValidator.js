@@ -1,7 +1,6 @@
 import { LightningElement, track } from 'lwc';
 import validateProfileFLS from '@salesforce/apex/ProfileValidationController.validateProfileFLS';
 import getAvailableProfiles from '@salesforce/apex/ProfileValidationController.getAvailableProfiles';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class ProfileValidator extends LightningElement {
     @track isLoading = false;
@@ -14,6 +13,7 @@ export default class ProfileValidator extends LightningElement {
     @track profileOptions = [];
     @track selectedProfileId = '';
     @track selectedProfileName = '';
+    @track infoMessage = '';
 
     connectedCallback() {
         this.loadProfiles();
@@ -39,6 +39,7 @@ export default class ProfileValidator extends LightningElement {
                 this.selectedProfileId = '';
                 this.selectedProfileName = '';
                 this.errorMessage = 'Unable to load profiles. Contact your Salesforce admin.';
+                this.infoMessage = '';
             });
     }
 
@@ -50,19 +51,14 @@ export default class ProfileValidator extends LightningElement {
 
     handleValidate() {
         if (!this.selectedProfileId) {
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: 'Profile Required',
-                    message: 'Please select a profile before running validation.',
-                    variant: 'warning',
-                })
-            );
+            this.errorMessage = 'Please select a profile before running validation.';
             return;
         }
 
         this.isLoading = true;
         this.showResults = false;
         this.errorMessage = '';
+        this.infoMessage = '';
         this.missingPermissions = [];
         this.objectList = [];
         this.hasIssues = false;
@@ -78,37 +74,16 @@ export default class ProfileValidator extends LightningElement {
                     this.missingPermissions = result.missingPermissions || [];
                     this.objectList = result.objects || [];
                     this.hasIssues = this.missingPermissions.length > 0;
-
-                    // Show toast notification
-                    const event = new ShowToastEvent({
-                        title: this.hasIssues ? 'Issues Found' : 'Success',
-                        message: this.hasIssues
-                            ? `Found ${this.missingPermissions.length} missing permissions for ${this.selectedProfileName}`
-                            : `${this.selectedProfileName} permissions are correctly configured`,
-                        variant: this.hasIssues ? 'warning' : 'success',
-                    });
-                    this.dispatchEvent(event);
+                    this.infoMessage = this.hasIssues
+                        ? `Found ${this.missingPermissions.length} missing permissions for ${this.selectedProfileName}.`
+                        : `${this.selectedProfileName} permissions are correctly configured.`;
                 } else {
                     this.errorMessage = result.errorMessage || 'An unknown error occurred';
-
-                    const event = new ShowToastEvent({
-                        title: 'Error',
-                        message: this.errorMessage,
-                        variant: 'error',
-                    });
-                    this.dispatchEvent(event);
                 }
             })
             .catch(error => {
                 this.isLoading = false;
                 this.errorMessage = error.body ? error.body.message : error.message;
-
-                const event = new ShowToastEvent({
-                    title: 'Error',
-                    message: this.errorMessage,
-                    variant: 'error',
-                });
-                this.dispatchEvent(event);
             });
     }
 
@@ -130,14 +105,7 @@ export default class ProfileValidator extends LightningElement {
         const safeProfileName = (this.selectedProfileName || 'Profile').replace(/[^a-zA-Z0-9_-]/g, '_');
         downloadLink.download = `${safeProfileName}_Missing_FLS_Permissions.csv`;
         downloadLink.click();
-
-        this.dispatchEvent(
-            new ShowToastEvent({
-                title: 'Download Started',
-                message: `Exported ${this.missingPermissions.length} records to CSV`,
-                variant: 'success',
-            })
-        );
+        this.infoMessage = `CSV downloaded with ${this.missingPermissions.length} records.`;
     }
 
     get missingPermissionCount() {

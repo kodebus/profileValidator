@@ -45,9 +45,18 @@
             <!-- Error Message -->
             <template if:true={errorMessage}>
                 <div class="slds-m-bottom_medium">
-                    <div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
-                        <span class="slds-assistive-text">error</span>
-                        <h2>{errorMessage}</h2>
+                    <div class="message-panel message-error" role="alert">
+                        <lightning-icon icon-name="utility:error" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                        <span>{errorMessage}</span>
+                    </div>
+                </div>
+            </template>
+
+            <template if:true={infoMessage}>
+                <div class="slds-m-bottom_medium">
+                    <div class="message-panel message-info" role="status">
+                        <lightning-icon icon-name="utility:info" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                        <span>{infoMessage}</span>
                     </div>
                 </div>
             </template>
