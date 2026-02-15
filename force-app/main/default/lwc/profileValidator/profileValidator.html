@@ -111,15 +111,39 @@
 
                     <!-- Missing Permissions List -->
                     <div class="slds-m-bottom_medium">
-                        <h3 class="slds-text-heading_small slds-m-bottom_small">
-                            Missing Field Permissions
-                        </h3>
+                        <div class="list-header slds-m-bottom_small">
+                            <h3 class="slds-text-heading_small">
+                                Missing Field Permissions ({displayedMissingPermissionCount})
+                            </h3>
+                        </div>
+
+                        <div class="permission-controls slds-m-bottom_small">
+                            <lightning-input
+                                type="search"
+                                label="Filter"
+                                value={permissionFilterText}
+                                onchange={handlePermissionFilterChange}
+                                placeholder="Filter by object or field"
+                            ></lightning-input>
+                            <lightning-combobox
+                                label="Sort"
+                                value={permissionSort}
+                                options={sortOptions}
+                                onchange={handlePermissionSortChange}
+                            ></lightning-combobox>
+                        </div>
+
                         <div class="permissions-container">
-                            <template for:each={missingPermissions} for:item="permission">
-                                <div key={permission} class="slds-box slds-box_xx-small slds-m-bottom_xx-small permission-item">
-                                    <lightning-icon icon-name="utility:warning" size="xx-small" variant="warning" class="slds-m-right_x-small"></lightning-icon>
-                                    {permission}
-                                </div>
+                            <template if:true={hasFilteredResults}>
+                                <template for:each={displayedMissingPermissions} for:item="permission">
+                                    <div key={permission.key} class="slds-box slds-box_xx-small slds-m-bottom_xx-small permission-item">
+                                        <lightning-icon icon-name="utility:warning" size="xx-small" variant="warning" class="slds-m-right_x-small"></lightning-icon>
+                                        {permission.label}
+                                    </div>
+                                </template>
+                            </template>
+                            <template if:false={hasFilteredResults}>
+                                <p class="empty-filter-state">No results match the current filter.</p>
                             </template>
                         </div>
                     </div>

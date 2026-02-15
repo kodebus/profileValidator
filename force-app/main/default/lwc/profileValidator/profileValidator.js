@@ -14,6 +14,8 @@ export default class ProfileValidator extends LightningElement {
     @track selectedProfileId = '';
     @track selectedProfileName = '';
     @track infoMessage = '';
+    @track permissionFilterText = '';
+    @track permissionSort = 'alphaAsc';
 
     connectedCallback() {
         this.loadProfiles();
@@ -62,6 +64,8 @@ export default class ProfileValidator extends LightningElement {
         this.missingPermissions = [];
         this.objectList = [];
         this.hasIssues = false;
+        this.permissionFilterText = '';
+        this.permissionSort = 'alphaAsc';
 
         validateProfileFLS({ profileId: this.selectedProfileId })
             .then(result => {
@@ -108,12 +112,58 @@ export default class ProfileValidator extends LightningElement {
         this.infoMessage = `CSV downloaded with ${this.missingPermissions.length} records.`;
     }
 
+    handlePermissionFilterChange(event) {
+        this.permissionFilterText = event.detail.value || '';
+    }
+
+    handlePermissionSortChange(event) {
+        this.permissionSort = event.detail.value;
+    }
+
     get missingPermissionCount() {
         return this.missingPermissions.length;
     }
 
     get objectCount() {
         return this.objectList.length;
+    }
+
+    get sortOptions() {
+        return [
+            { label: 'A → Z', value: 'alphaAsc' },
+            { label: 'Z → A', value: 'alphaDesc' }
+        ];
+    }
+
+    get displayedMissingPermissions() {
+        const filterText = (this.permissionFilterText || '').trim().toLowerCase();
+
+        let filtered = this.missingPermissions.filter((permission) => {
+            if (!filterText) {
+                return true;
+            }
+            return permission.toLowerCase().includes(filterText);
+        });
+
+        filtered = [...filtered].sort((first, second) => {
+            if (this.permissionSort === 'alphaDesc') {
+                return second.localeCompare(first);
+            }
+            return first.localeCompare(second);
+        });
+
+        return filtered.map((permission, index) => ({
+            key: `${index}-${permission}`,
+            label: permission
+        }));
+    }
+
+    get displayedMissingPermissionCount() {
+        return this.displayedMissingPermissions.length;
+    }
+
+    get hasFilteredResults() {
+        return this.displayedMissingPermissionCount > 0;
     }
 
     get summaryClass() {
