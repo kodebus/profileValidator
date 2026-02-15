@@ -1,33 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>DevToolsRegistryController</members>
         <members>ProfileValidationController</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>devToolsHome</members>
         <members>profileValidator</members>
         <name>LightningComponentBundle</name>
     </types>
     <types>
-        <members>Developer_Tools</members>
-        <name>CustomApplication</name>
-    </types>
-    <types>
-        <members>DeveloperTool__mdt</members>
-        <name>CustomObject</name>
-    </types>
-    <types>
-        <members>DeveloperTool.profileValidator</members>
-        <name>CustomMetadata</name>
-    </types>
-    <types>
-        <members>Dev_Tools_User</members>
-        <name>PermissionSet</name>
-    </types>
-    <types>
-        <members>DevToolsHome</members>
         <members>profileValidator</members>
         <name>CustomTab</name>
     </types>
