@@ -1,13 +1,25 @@
 <template>
-    <lightning-card title="System Admin Profile FLS Validator" icon-name="standard:settings">
+    <lightning-card title="Profile FLS Validator" icon-name="standard:settings">
         <div class="slds-p-around_medium">
 
             <!-- Description -->
             <div class="slds-m-bottom_medium">
                 <p class="slds-text-body_regular">
-                    This tool validates that the System Administrator profile has edit permissions
-                    on all custom fields across all objects in your Salesforce org.
+                    This tool validates that a selected profile has edit permissions
+                    on custom fields across all objects in your Salesforce org.
                 </p>
+            </div>
+
+            <div class="slds-m-bottom_medium">
+                <lightning-combobox
+                    name="profileSelector"
+                    label="Select Profile"
+                    value={selectedProfileId}
+                    placeholder="Choose a profile"
+                    options={profileOptions}
+                    onchange={handleProfileChange}
+                    disabled={isLoading}
+                ></lightning-combobox>
             </div>
 
             <!-- Run Button -->
@@ -15,9 +27,9 @@
                 <lightning-button
                     variant="brand"
                     label="Run Validation"
-                    title="Click to validate FLS permissions"
+                    title="Click to validate selected profile FLS permissions"
                     onclick={handleValidate}
-                    disabled={isLoading}
+                    disabled={isRunDisabled}
                     icon-name="utility:check"
                 ></lightning-button>
             </div>
@@ -48,6 +60,7 @@
                         <h2 class="slds-text-heading_small slds-m-bottom_x-small">
                             <strong>Validation Complete</strong>
                         </h2>
+                        <p>Profile: <strong>{selectedProfileName}</strong></p>
                         <p>Total Custom Fields Checked: <strong>{totalFieldsChecked}</strong></p>
                         <p>Objects with Missing Permissions: <strong>{objectCount}</strong></p>
                         <p>Total Missing Permissions: <strong>{missingPermissionCount}</strong></p>
