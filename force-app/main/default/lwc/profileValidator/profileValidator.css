@@ -4,6 +4,36 @@
     gap: 0.25rem;
 }
 
+.summary-panel {
+    border: 1px solid #d8dde6;
+    border-radius: 0.375rem;
+    padding: 0.75rem;
+    background: #ffffff;
+}
+
+.summary-warning {
+    border-left: 4px solid #dd7a01;
+}
+
+.summary-success {
+    border-left: 4px solid #2e844a;
+}
+
+.summary-header {
+    display: flex;
+    align-items: center;
+}
+
+.summary-subtitle {
+    color: #5c5f62;
+    margin-top: 0.1rem;
+}
+
+.summary-grid {
+    display: grid;
+    gap: 0.25rem;
+}
+
 .permissions-container {
     max-height: 400px;
     overflow-y: auto;

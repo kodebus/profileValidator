@@ -55,15 +55,20 @@
             <!-- Results Summary -->
             <template if:true={showResults}>
                 <div class="slds-m-bottom_medium">
-                    <div class={summaryClass} role="alert">
-                        <span class="slds-assistive-text">{summaryType}</span>
-                        <h2 class="slds-text-heading_small slds-m-bottom_x-small">
-                            <strong>Validation Complete</strong>
-                        </h2>
-                        <p>Profile: <strong>{selectedProfileName}</strong></p>
-                        <p>Total Custom Fields Checked: <strong>{totalFieldsChecked}</strong></p>
-                        <p>Objects with Missing Permissions: <strong>{objectCount}</strong></p>
-                        <p>Total Missing Permissions: <strong>{missingPermissionCount}</strong></p>
+                    <div class={summaryClass} role="status">
+                        <div class="summary-header slds-m-bottom_small">
+                            <lightning-icon icon-name={summaryIcon} size="small" class="slds-m-right_small"></lightning-icon>
+                            <div>
+                                <h2 class="slds-text-heading_small"><strong>Validation Complete</strong></h2>
+                                <p class="summary-subtitle">{summarySubtitle}</p>
+                            </div>
+                        </div>
+                        <div class="summary-grid">
+                            <p>Profile: <strong>{selectedProfileName}</strong></p>
+                            <p>Total Custom Fields Checked: <strong>{totalFieldsChecked}</strong></p>
+                            <p>Objects with Missing Permissions: <strong>{objectCount}</strong></p>
+                            <p>Total Missing Permissions: <strong>{missingPermissionCount}</strong></p>
+                        </div>
                     </div>
                 </div>
 

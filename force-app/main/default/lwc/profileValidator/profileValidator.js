@@ -150,12 +150,18 @@ export default class ProfileValidator extends LightningElement {
 
     get summaryClass() {
         return this.hasIssues
-            ? 'slds-notify slds-notify_alert slds-alert_warning'
-            : 'slds-notify slds-notify_alert slds-alert_success';
+            ? 'summary-panel summary-warning'
+            : 'summary-panel summary-success';
     }
 
-    get summaryType() {
-        return this.hasIssues ? 'warning' : 'success';
+    get summaryIcon() {
+        return this.hasIssues ? 'utility:warning' : 'utility:success';
+    }
+
+    get summarySubtitle() {
+        return this.hasIssues
+            ? 'Issues were found for this profile.'
+            : 'No missing field edit permissions were found.';
     }
 
     get isRunDisabled() {
